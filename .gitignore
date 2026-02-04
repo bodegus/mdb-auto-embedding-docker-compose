@@ -1,0 +1,17 @@
+# MongoDB data
+data/
+
+# Secrets (keep .example files)
+secrets/password
+secrets/voyage-api-key
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+CLAUDE.md
+.claude/
+
+# data files
+**.bz2

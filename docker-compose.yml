@@ -1,0 +1,39 @@
+services:
+  mongod:
+    image: mongodb/mongodb-community-server:8.2-ubi9
+    container_name: mongod
+    ports:
+      - "27020:27020"
+    volumes:
+      - mongodb-data:/data/db
+      - ./config/mongod.conf:/etc/mongod.conf:ro
+    command: ["--config", "/etc/mongod.conf"]
+    networks:
+      - mongodb-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--port", "27020", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongot:
+    image: mongodb/mongodb-community-search:latest
+    platform: linux/amd64
+    container_name: mongot
+    depends_on:
+      mongod:
+        condition: service_healthy
+    volumes:
+      - ./config/mongot.yml:/mongot-community/config.default.yml:ro
+      - ./secrets:/etc/mongot/secrets:ro
+      - mongot-data:/var/lib/mongot
+    networks:
+      - mongodb-net
+
+networks:
+  mongodb-net:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+  mongot-data:

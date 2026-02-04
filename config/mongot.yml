@@ -1,0 +1,27 @@
+syncSource:
+  replicaSet:
+    hostAndPort: "mongod:27020"
+    username: mongotUser
+    passwordFile: "/etc/mongot/secrets/password"
+    authSource: admin
+    tls: false
+    readPreference: primaryPreferred
+storage:
+  dataPath: "/var/lib/mongot"
+server:
+  grpc:
+    address: "0.0.0.0:27027"
+    tls:
+      mode: "disabled"
+metrics:
+  enabled: true
+  address: "0.0.0.0:9946"
+healthCheck:
+  address: "0.0.0.0:8080"
+logging:
+  verbosity: INFO
+embedding:
+  queryKeyFile: /etc/mongot/secrets/voyage-api-key
+  indexingKeyFile: /etc/mongot/secrets/voyage-api-key
+  providerEndpoint: https://ai.mongodb.com/v1/embeddings
+  isAutoEmbeddingViewWriter: true
